@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisis Kebutuhan Proyek</title>
+    <style>
+        /* Reset dan gaya dasar */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Header dan navigasi */
+        header {
+            background: linear-gradient(135deg, #2c3e50, #4a6491);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            margin-left: 10px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+            position: relative;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            display: block;
+        }
+        
+        nav ul li a:hover, nav ul li a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Submenu styles */
+        .submenu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            z-index: 10;
+        }
+        
+        .submenu a {
+            color: #333 !important;
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #f0f0f0;
+            display: block;
+            transition: background-color 0.2s;
+        }
+        
+        .submenu a:hover {
+            background-color: #f5f7fa;
+            color: #2c3e50 !important;
+        }
+        
+        nav ul li:hover .submenu {
+            display: block;
+        }
+        
+        /* Hero section */
+        .hero {
+            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.9)), url('https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* Main content */
+        main {
+            padding: 3rem 0;
+        }
+        
+        .content-section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: none;
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        .content-section h3 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #eaeaea;
+        }
+        
+        .content-section h4 {
+            color: #2c3e50;
+            margin: 1.5rem 0 1rem 0;
+            padding-bottom: 0.3rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .content-section h5 {
+            color: #2c3e50;
+            margin: 1.2rem 0 0.8rem 0;
+        }
+        
+        .content-section p {
+            margin-bottom: 1rem;
+        }
+        
+        .content-section ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .content-section li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .deliverable-item {
+            background-color: #f8f9fa;
+            border-left: 4px solid #4a6491;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .sub-content {
+            margin-bottom: 2rem;
+        }
+        
+        .requirements-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        .requirements-table th, .requirements-table td {
+            border: 1px solid #ddd;
+            padding: 0.75rem;
+            text-align: left;
+        }
+        
+        .requirements-table th {
+            background-color: #f2f2f2;
+            font-weight: 600;
+        }
+        
+        .requirements-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: 2rem;
+        }
+        
+        /* Responsif */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0.5rem;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .submenu {
+                position: static;
+                box-shadow: none;
+                border-radius: 0;
+            }
+            
+            .requirements-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>SISTEM INFORMASI AKADEMIK ONLINE</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="#" class="menu-main" data-target="analisis-kebutuhan">Analisis Kebutuhan</a>
+                        </li>
+                        <li>
+                            <a href="#" class="menu-main" data-target="dokumen-srs">Dokumen SRS</a>
+                        </li>
+                        <li>
+                            <a href="#" class="menu-main" data-target="studi-kasus">Studi Kasus</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2>ALVA RISKI HIA</h2>
+            <p>243303611285</p>
+        </div>
+    </section>
+
+    <main class="container">
+        <!-- Analisis Kebutuhan Section -->
+        <section id="analisis-kebutuhan" class="content-section active">
+        
+            <div class="sub-content">
+                <h4>ANALISIS KEBUTUHAN SISTEM INFORMASI AKADEMIK ONLINE UNIVERSITAS HARAPAN MAMA</h4>
+                
+                <h5>1. PENDAHULUAN</h5>
+                <P>Perkembangan teknologi informasi yang pesat telah membawa transformasi signifikan dalam berbagai sektor, termasuk dunia pendidikan. Universitas Harapan Mama sebagai institusi pendidikan tinggi yang memiliki 5.000 mahasiswa dan 200 dosen, saat ini masih menghadapi tantangan dalam mengelola proses akademik yang efisien dan efektif. Sistem akademik yang masih mengandalkan proses manual menggunakan formulir kertas telah menimbulkan berbagai permasalahan kompleks yang menghambat produktivitas dan kualitas layanan akademik.
+
+Permasalahan utama yang dihadapi meliputi proses pendaftaran mata kuliah (KRS) yang memakan waktu sangat lama dengan antrian mencapai 1-2 jam per mahasiswa, sering terjadinya kehilangan atau kesalahan input data nilai, serta proses perhitungan IPK yang membutuhkan waktu hingga 2 minggu. Selain itu, mahasiswa mengalami kesulitan dalam mengakses jadwal kuliah dan nilai secara real-time, sementara dosen menghadapi kendala dalam melakukan input nilai dan monitoring kehadiran mahasiswa.
+
+Kondisi ini mengakibatkan inefisiensi waktu dan sumber daya, menurunnya kualitas layanan akademik, serta meningkatnya risiko kesalahan data yang dapat berpengaruh pada pengambilan keputusan akademik. Oleh karena itu, diperlukan transformasi digital melalui pengembangan Sistem Informasi Akademik Online yang terintegrasi untuk mengotomatisasi seluruh proses akademik dari KRS hingga wisuda.</P>
+                <h5>1.1 Identifikasi Masalah</h5>
+                <ul>
+                    <li><strong>Proses Manual:</strong> Sistem akademik masih menggunakan formulir kertas untuk KRS, penilaian, dan transkrip</li>
+                    <li><strong>Inefisiensi Waktu:</strong> Antrian KRS mencapai 1-2 jam per mahasiswa, perhitungan IPK memakan waktu 2 minggu</li>
+                    <li><strong>Risiko Data:</strong> Data nilai sering hilang atau salah input</li>
+                    <li><strong>Akses Terbatas:</strong> Mahasiswa sulit mengakses jadwal kuliah dan nilai secara real-time</li>
+                    <li><strong>Beban Administrasi:</strong> Dosen kesulitan dalam input dan monitoring kehadiran mahasiswa</li>
+                </ul>
+                
+                <h5>1.2 Tujuan Proyek</h5>
+                <ul>
+                    <li><strong>Otomatisasi:</strong> Mengotomatisasi seluruh proses akademik dari KRS hingga wisuda</li>
+                    <li><strong>Efisiensi:</strong> Mengurangi waktu proses KRS dari 2 jam menjadi 10 menit</li>
+                    <li><strong>Aksesibilitas:</strong> Memberikan akses 24/7 untuk mahasiswa dan dosen</li>
+                    <li><strong>Akurasi Data:</strong> Meningkatkan akurasi data nilai dan transkrip</li>
+                    <li><strong>Integrasi:</strong> Menghubungkan semua proses akademik dalam satu platform terpadu</li>
+                </ul>
+                
+                <h5>1.3 Ruang Lingkup Proyek</h5>
+                <ul>
+                    <li>Modul KRS Online: Pendaftaran mata kuliah digital</li>
+                    <li>Modul Jadwal Kuliah: Pengelolaan jadwal terintegrasi</li>
+                    <li>Sistem Absensi Digital: Presensi online untuk mahasiswa</li>
+                    <li>Input Nilai: Platform digital untuk penilaian</li>
+                    <li>Transkrip Online: Generasi transkrip otomatis</li>
+                    <li>Portal Mahasiswa: Dashboard lengkap untuk mahasiswa</li>
+                    <li>Portal Dosen: Tools untuk manajemen kelas dan penilaian</li>
+                </ul>
+                
+                <h5>2. ANALISIS STAKEHOLDER</h5>
+                <h5>2.1 Daftar Pemangku Kepentingan</h5>
+                <ul>
+                    <li>Mahasiswa (5.000 pengguna): Pengguna utama sistem</li>
+                    <li>Dosen (200 pengguna): Input nilai dan manajemen kelas</li>
+                    <li>Admin Akademik: Management data dan operasional</li>
+                    <li>Kepala Program Studi: Monitoring dan persetujuan</li>
+                    <li>Rektor: Pengawasan dan analitik</li>
+                    <li>Tim IT: Pengembangan dan pemeliharaan</li>
+                    <li>Vendor Pembayaran: Integrasi sistem pembayaran</li>
+                </ul>
+                
+                <h5>2.2 Kebutuhan dan Harapan Stakeholder</h5>
+                <ul>
+                    <li><strong>Mahasiswa:</strong> Kemudahan akses, proses cepat, informasi real-time</li>
+                    <li><strong>Dosen:</strong> Tools yang mudah digunakan, efisiensi waktu, monitoring mudah</li>
+                    <li><strong>Admin:</strong> Sistem terintegrasi, laporan otomatis, minim error</li>
+                    <li><strong>Kaprodi:</strong> Data akurat untuk pengambilan keputusan</li>
+                    <li><strong>Rektor:</strong> Analitik untuk perencanaan strategis</li>
+                </ul>
+                
+                <h5>3. ANALISIS KEBUTUHAN FUNGSIONAL</h5>
+                <h5>3.1 Modul Manajemen Kerja</h5>
+                <ul>
+                    <li>Dashboard real-time untuk semua peran pengguna</li>
+                    <li>Alur kerja persetujuan untuk transaksi akademik</li>
+                    <li>Manajemen tugas untuk administrasi</li>
+                    <li>Integrasi kalender untuk jadwal</li>
+                    <li>Sistem manajemen dokumen</li>
+                </ul>
+                
+                <h5>3.2 Modul Katalog Akademik</h5>
+                <ul>
+                    <li>Katalog mata kuliah lengkap</li>
+                    <li>Kurikulum dan silabus</li>
+                    <li>Prasyarat dan mata kuliah bersamaan</li>
+                    <li>Kuota kelas dan kursi tersedia</li>
+                    <li>Pencarian dan filter lanjutan</li>
+                </ul>
+                
+                <h5>3.3 Modul KRS dan Akademik</h5>
+                <ul>
+                    <li>Pendaftaran mata kuliah online</li>
+                    <li>Validasi otomatis untuk SKS dan prasyarat</li>
+                    <li>Penambahan dan pengurangan mata kuliah</li>
+                    <li>Manajemen daftar tunggu</li>
+                    <li>Sistem konfirmasi</li>
+                </ul>
+                
+                <h5>3.4 Modul Notifikasi</h5>
+                <ul>
+                    <li>Notifikasi email untuk persetujuan KRS</li>
+                    <li>Peringatan SMS untuk jadwal penting</li>
+                    <li>Notifikasi dalam aplikasi</li>
+                    <li>Pengingat untuk tenggat waktu</li>
+                    <li>Pesan siaran</li>
+                </ul>
+                
+                <h5>3.5 Modul Laporan dan Analitik</h5>
+                <ul>
+                    <li>Laporan kinerja akademik</li>
+                    <li>Pelacakan kemajuan mahasiswa</li>
+                    <li>Laporan beban kerja dosen</li>
+                    <li>Analitik institusional</li>
+                    <li>Laporan akreditasi</li>
+                </ul>
+                
+                <h5>4. ANALISIS KEBUTUHAN NON-FUNGSIONAL</h5>
+                <h5>4.1 Kinerja</h5>
+                <ul>
+                    <li>Waktu respons < 3 detik</li>
+                    <li>Dukungan 2.000+ pengguna bersamaan</li>
+                    <li>Ketersediaan sistem 99.5%</li>
+                    <li>Optimasi database</li>
+                    <li>Mekanisme caching</li>
+                </ul>
+                
+                <h5>4.2 Keamanan</h5>
+                <ul>
+                    <li>Enkripsi data (AES-256)</li>
+                    <li>Pencegahan SQL injection</li>
+                    <li>Autentikasi dua faktor</li>
+                    <li>Audit keamanan rutin</li>
+                    <li>Kepatuhan dengan UU PDP</li>
+                </ul>
+                
+                <h5>4.3 Kemudahan Penggunaan</h5>
+                <ul>
+                    <li>Desain responsif</li>
+                    <li>Antarmuka pengguna yang intuitif</li>
+                    <li>Dukungan multi-bahasa</li>
+                    <li>Dokumentasi komprehensif</li>
+                    <li>Aksesibilitas mobile</li>
+                </ul>
+                
+                <h5>4.4 Ketersediaan dan Keandalan</h5>
+                <ul>
+                    <li>Ketersediaan sistem 24/7</li>
+                    <li>Load balancing</li>
+                    <li>Rencana pemulihan bencana</li>
+                    <li>Backup otomatis</li>
+                    <li>Sistem redundan</li>
+                </ul>
+                
+                <h5>4.5 Pemeliharaan</h5>
+                <ul>
+                    <li>Mekanisme update mudah</li>
+                    <li>Arsitektur modular</li>
+                    <li>Pencatatan komprehensif</li>
+                    <li>Tools monitoring</li>
+                    <li>Update dokumentasi</li>
+                </ul>
+                
+                <h5>5. SPESIFIKASI TEKNIS</h5>
+                <h5>5.1 Teknologi yang Digunakan</h5>
+                <ul>
+                    <li>Frontend: React.js/Vue.js dengan TypeScript</li>
+                    <li>Backend: Node.js dengan Express.js</li>
+                    <li>Database: PostgreSQL dengan cache Redis</li>
+                    <li>Mobile: React Native untuk aplikasi mobile</li>
+                    <li>Pencarian: Elasticsearch untuk pencarian</li>
+                    <li>Antrian: RabbitMQ untuk pemrosesan tugas</li>
+                    <li>Penyimpanan: AWS S3 untuk penyimpanan file</li>
+                </ul>
+                
+                <h5>5.2 Kebutuhan Perangkat Keras</h5>
+                <ul>
+                    <li><strong>Server Produksi:</strong></li>
+                    <li>4x Server aplikasi (8 CPU, 16GB RAM masing-masing)</li>
+                    <li>2x Server database (16 CPU, 32GB RAM masing-masing)</li>
+                    <li>1x Server cache Redis (4 CPU, 8GB RAM)</li>
+                    <li>Load balancer dengan auto-scaling</li>
+                    <li>Penyimpanan: 2TB SSD dengan sistem backup</li>
+                    <li>Jaringan: Bandwidth 1Gbps dengan CDN</li>
+                </ul>
+                
+                <h5>5.3 Kebutuhan Infrastruktur</h5>
+                <ul>
+                    <li>Hosting cloud (AWS/Azure)</li>
+                    <li>Content Delivery Network (CDN)</li>
+                    <li>Perlindungan DDoS</li>
+                    <li>Sertifikat SSL</li>
+                    <li>Tools monitoring (Prometheus, Grafana)</li>
+                </ul>
+                
+                <h5>6. TIMELINE & ESTIMASI PROYEK</h5>
+                <h5>6.1 Timeline Implementasi (12 Bulan)</h5>
+                <ul>
+                    <li>Bulan 1-3: Analisis kebutuhan & desain</li>
+                    <li>Bulan 4-6: Pengembangan inti & pengujian</li>
+                    <li>Bulan 7-9: Integrasi & pengujian penerimaan pengguna</li>
+                    <li>Bulan 10-12: Deployment & pelatihan</li>
+                </ul>
+                
+                <h5>6.2 Estimasi Biaya</h5>
+                <ul>
+                    <li>Biaya Pengembangan: Rp 3.5 Miliar</li>
+                    <li>Hardware & Infrastruktur: Rp 1.2 Miliar/tahun</li>
+                    <li>Pemeliharaan & Dukungan: Rp 500 Juta/tahun</li>
+                    <li>Pelatihan & Manajemen Perubahan: Rp 300 Juta</li>
+                    <li>Dana Kontinjensi: Rp 500 Juta</li>
+                </ul>
+                
+                <h5>6.3 Sumber Daya Tim</h5>
+                <ul>
+                    <li>Manajer Proyek: 2 orang</li>
+                    <li>Pengembang Backend: 4 orang</li>
+                    <li>Pengembang Frontend: 3 orang</li>
+                    <li>Engineer DevOps: 2 orang</li>
+                    <li>Engineer QA: 2 orang</li>
+                    <li>Desainer UI/UX: 1 orang</li>
+                </ul>
+                
+                <h5>7. MANAJEMEN RISIKO</h5>
+                <h5>7.1 Identifikasi Risiko</h5>
+                <ul>
+                    <li><strong>Risiko Teknis:</strong></li>
+                    <li>Masalah kinerja selama beban puncak</li>
+                    <li>Kompleksitas integrasi dengan sistem yang ada</li>
+                    <li>Tantangan migrasi data</li>
+                    <li><strong>Risiko Operasional:</strong></li>
+                    <li>Penolakan pengguna terhadap perubahan</li>
+                    <li>Pelatihan tidak memadai</li>
+                    <li>Melebihi anggaran</li>
+                    <li><strong>Risiko Keamanan:</strong></li>
+                    <li>Potensi kebocoran data</li>
+                    <li>Kerentanan sistem</li>
+                    <li>Masalah kepatuhan</li>
+                </ul>
+                
+                <h5>7.2 Strategi Mitigasi</h5>
+                <ul>
+                    <li><strong>Mitigasi Teknis:</strong></li>
+                    <li>Pengujian beban komprehensif</li>
+                    <li>Pendekatan implementasi bertahap</li>
+                    <li>Menjalankan paralel dengan sistem lama</li>
+                    <li><strong>Mitigasi Operasional:</strong></li>
+                    <li>Program manajemen perubahan</li>
+                    <li>Rencana pelatihan komprehensif</li>
+                    <li>Monitoring kemajuan rutin</li>
+                    <li><strong>Mitigasi Keamanan:</strong></li>
+                    <li>Audit keamanan rutin</li>
+                    <li>Implementasi enkripsi data</li>
+                    <li>Monitoring kepatuhan</li>
+                </ul>
+                
+                <h5>7.3 Rencana Kontinjensi</h5>
+                <ul>
+                    <li>Ketersediaan sistem backup</li>
+                    <li>Rencana rollback untuk setiap fase</li>
+                    <li>Tim tanggap darurat</li>
+                    <li>Rencana komunikasi untuk downtime</li>
+                    <li>Prosedur pemulihan data</li>
+                </ul>
+                
+                <p>Dokumen analisis kebutuhan ini memberikan kerangka kerja komprehensif untuk pengembangan sistem informasi akademik online yang akan mengatasi semua masalah saat ini dan memberikan platform yang scalable untuk masa depan Universitas Harapan Mama.</p>
+            </div>
+        </section>
+
+        <!-- Dokumen SRS Section -->
+        <section id="dokumen-srs" class="content-section">
+            <h3>Dokumen SRS (Software Requirements Specification)</h3>
+            
+                <h5>SISTEM INFORMASI AKADEMIK ONLINE UNIVERSITAS HARAPAN MAMA</h5>
+                <h5>1. PENDAHULUAN</h5>
+                <h5>1.1 Tujuan Dokumen</h5>
+                <p>Dokumen ini berisi spesifikasi kebutuhan fungsional dan non-fungsional untuk pengembangan Sistem Informasi Akademik Online Universitas Harapan Mama. Tujuannya adalah:</p>
+                <ul>
+                    <li>Menjadi panduan bagi pengembang, tester, dan stakeholder dalam proses pengembangan.</li>
+                    <li>Memastikan sistem memenuhi kebutuhan bisnis dan teknis universitas.</li>
+                </ul>
+                
+                <h5>1.2 Ruang Lingkup Sistem</h5>
+                <p>Sistem akan mencakup modul:</p>
+                <ul>
+                    <li>KRS Online: Pendaftaran mata kuliah oleh mahasiswa.</li>
+                    <li>Jadwal Kuliah: Pengelolaan jadwal oleh admin.</li>
+                    <li>Absensi Digital: Pencatatan kehadiran oleh dosen.</li>
+                    <li>Input Nilai: Input dan koreksi nilai oleh dosen/Kaprodi.</li>
+                    <li>Transkrip Online: Generate transkrip otomatis.</li>
+                    <li>Portal Mahasiswa & Dosen: Dashboard sesuai peran.</li>
+                </ul>
+                
+                <h5>1.3 Definisi dan Akronim</h5>
+                <ul>
+                    <li>KRS: Kartu Rencana Studi.</li>
+                    <li>IPK: Indeks Prestasi Kumulatif.</li>
+                    <li>SKS: Satuan Kredit Semester.</li>
+                    <li>Kaprodi: Kepala Program Studi.</li>
+                    <li>Admin Akademik: Staf administrasi fakultas.</li>
+                </ul>
+                
+                <h5>2. DESKRIPSI UMUM</h5>
+                <h5>2.1 Perspektif Produk</h5>
+                <p>Sistem ini menggantikan proses manual dengan platform terintegrasi untuk meningkatkan efisiensi, akurasi, dan aksesibilitas layanan akademik.</p>
+                
+                <h5>2.2 Fungsi Produk</h5>
+                <ul>
+                    <li>Otomatisasi KRS, perhitungan IPK, dan kelulusan.</li>
+                    <li>Monitoring kehadiran dan nilai real-time.</li>
+                    <li>Notifikasi jadwal dan batas waktu input nilai.</li>
+                </ul>
+                
+                <h5>2.3 Karakteristik Pengguna</h5>
+                <table class="requirements-table">
+                    <thead>
+                        <tr>
+                            <th>Peran</th>
+                            <th>Fitur Utama</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Mahasiswa</td>
+                            <td>KRS, lihat jadwal/nilai, unduh transkrip</td>
+                        </tr>
+                        <tr>
+                            <td>Dosen</td>
+                            <td>Input nilai/absensi, lihat jadwal</td>
+                        </tr>
+                        <tr>
+                            <td>Kaprodi</td>
+                            <td>Approve KRS, pantau progress mahasiswa</td>
+                        </tr>
+                        <tr>
+                            <td>Admin Akademik</td>
+                            <td>Kelola jadwal, data mata kuliah, user</td>
+                        </tr>
+                        <tr>
+                            <td>Rektor</td>
+                            <td>Akses laporan agregat (IPK, kelulusan)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h5>3. KEBUTUHAN FUNGSIONAL</h5>
+                <h5>3.1 Modul Manajemen Pengguna</h5>
+                <ul>
+                    <li>Registrasi otomatis mahasiswa/dosen berdasarkan data akademik.</li>
+                    <li>Autentikasi multi-role (mahasiswa, dosen, admin, dll.).</li>
+                    <li>Reset password via email.</li>
+                </ul>
+                
+                <h5>3.2 Modul KRS Online</h5>
+                <ul>
+                    <li>Mahasiswa memilih mata kuliah sesuai SKS maksimal.</li>
+                    <li>Validasi prasyarat mata kuliah.</li>
+                    <li>Kaprodi menyetujui/menolak KRS.</li>
+                    <li>Antarmuka responsif untuk akses mobile.</li>
+                </ul>
+                
+                <h5>3.3 Modul Nilai dan Transkrip</h5>
+                <ul>
+                    <li>Dosen menginput nilai dengan batas waktu.</li>
+                    <li>Hitung IPK otomatis berdasarkan SKS dan nilai.</li>
+                    <li>Generate transkrip dalam format PDF.</li>
+                </ul>
+                
+                <h5>3.4 Modul Absensi Digital</h5>
+                <ul>
+                    <li>Dosen scan QRCode di kelas untuk absensi.</li>
+                    <li>Mahasiswa absen via kode unik per sesi.</li>
+                    <li>Rekap kehadiran otomatis.</li>
+                </ul>
+                
+                <h5>4. KEBUTUHAN NON-FUNGSIONAL</h5>
+                <h5>4.1 Performance Requirements</h5>
+                <ul>
+                    <li>Menangani 2.000+ user bersamaan saat periode KRS.</li>
+                    <li>Response time < 3 detik untuk semua operasi.</li>
+                    <li>Database mampu menyimpan 10+ tahun data akademik.</li>
+                </ul>
+                
+                <h5>4.2 Security Requirements</h5>
+                <ul>
+                    <li>Enkripsi data sensitif (nilai, transkrip).</li>
+                    <li>RBAC (Role-Based Access Control) untuk modul.</li>
+                    <li>Audit log untuk perubahan nilai/KRS.</li>
+                </ul>
+                
+                <h5>4.3 Usability Requirements</h5>
+                <ul>
+                    <li>Antarmuka intuitif (skala SUS > 80).</li>
+                    <li>Panduan interaktif untuk mahasiswa/dosen baru.</li>
+                </ul>
+                
+                <h5>4.4 Reliability Requirements</h5>
+                <ul>
+                    <li>Uptime 99.8% selama periode akademik.</li>
+                    <li>Backup data harian dan recovery < 4 jam.</li>
+                </ul>
+                
+                <h5>5. SPESIFIKASI INTERFACE</h5>
+                <h5>5.1 User Interface</h5>
+                <ul>
+                    <li>Dashboard dengan menu kontekstual (berdasarkan peran).</li>
+                    <li>Desain responsive (Bootstrap 5.0).</li>
+                </ul>
+                
+                <h5>5.2 Hardware Interface</h5>
+                <ul>
+                    <li>Mendukung akses via PC, tablet, dan smartphone.</li>
+                </ul>
+                
+                <h5>5.3 Software Interface</h5>
+                <ul>
+                    <li>Backend: Java Spring Boot/Python Django.</li>
+                    <li>Database: PostgreSQL dengan clustering.</li>
+                </ul>
+                
+                <h5>5.4 Communication Interface</h5>
+                <ul>
+                    <li>Integrasi API pembayaran (bank/third-party).</li>
+                    <li>Notifikasi email/SMS via gateway (e.g., Twilio).</li>
+                </ul>
+                
+                <h5>6. MODEL DATA</h5>
+                <h5>6.1 Entity Relationship Diagram (ERD)</h5>
+                <p>user(id,nim,nama,pasword,email,nilai,status)</p>
+                
+                <h5>6.2 Relasi Antar Entitas</h5>
+                <ul>
+                    <li>Mahasiswa → KRS (one-to-many).</li>
+                    <li>Dosen → Mata_Kuliah (one-to-many).</li>
+                    <li>Nilai → Mahasiswa & Mata_Kuliah (many-to-one).</li>
+                </ul>
+                
+                <h5>7. CONSTRAINTS & ASSUMPTIONS</h5>
+                <h5>7.1 Design Constraints</h5>
+                <ul>
+                    <li>Harus kompatibel dengan browser Chrome/Firefox terbaru.</li>
+                    <li>Menggunakan database relational (SQL).</li>
+                </ul>
+                
+                <h5>7.2 Assumptions</h5>
+                <ul>
+                    <li>Koneksi internet stabil tersedia di kampus.</li>
+                    <li>Admin terlatih untuk input data awal.</li>
+                </ul>
+                
+                <h5>7.3 Dependencies</h5>
+                <ul>
+                    <li>Integrasi dengan sistem keuangan (pembayaran SKS).</li>
+                    <li>Sinkronisasi data dengan SIAM (jika ada).</li>
+                </ul>
+                
+                <h5>8. ACCEPTANCE CRITERIA</h5>
+                <h5>KRS Online:</h5>
+                <ul>
+                    <li>1000 mahasiswa dapat akses KRS bersamaan tanpa error.</li>
+                    <li>Validasi prasyarat mencegah pendaftaran tidak memenuhi syarat.</li>
+                </ul>
+                
+                <h5>Input Nilai:</h5>
+                <ul>
+                    <li>Dosen dapat input nilai dalam < 2 menit per kelas.</li>
+                    <li>Sistem hitung IPK dalam < 10 detik.</li>
+                </ul>
+                
+                <h5>Keandalan:</h5>
+                <ul>
+                    <li>Uptime 99.8% selama 30 hari periode akademik.</li>
+                </ul>
+                
+                <h5>Keamanan:</h5>
+                <ul>
+                    <li>Tidak ada akses tidak sah ke data nilai/transkrip.</li>
+                </ul>
+                
+                <h5>Dokumen Disetujui Oleh:</h5>
+                <ul>
+                    <li>Rektor Universitas XYZ</li>
+                    <li>Kaprodi</li>
+                    <li>Tim Pengembang</li>
+                    <li>Admin Akademik</li>
+                </ul>
+                
+                <p><strong>Tanggal: 1 Juni 2024</strong></p>
+            </div>
+        </section>
+
+        <!-- Studi Kasus Section -->
+        <section id="studi-kasus" class="content-section">
+            <h3>Studi Kasus: Sistem Informasi Akademik Online</h3>
+            
+            <div id="deliverables" class="sub-content">
+                <h4> Latar Belakang:</h4>
+                <P> Universitas Harapan Mama memiliki 5.000 mahasiswa dan 200 dosen. Saat ini proses
+ pendaftaran mata kuliah (KRS), penilaian, dan transkrip nilai masih dilakukan
+ secara manual menggunakan formulir kertas. Hal ini menyebabkan:</P>
+                <div class="deliverable-item">
+                    <ul>
+                        <li>Antrian panjang saat periode KRS (1-2 jam per mahasiswa)</li>
+                        <li>Data nilai sering hilang atau salah input</li>
+                        <li>Proses perhitungan IPK memakan waktu 2 minggu</li>
+                        <li>Mahasiswa sulit mengakses jadwal kuliah dan nilai</li>
+                        <li>Dosen kesulitan input dan monitoring kehadiran</li>
+                <h4>Tujuan Proyek:</h4>
+                <p>Membangun sistem akademik online yang terintegrasi untuk otomatisasi
+ seluruh proses akademik dari KRS hingga wisuda.</p>
+                <h4>Scope Utama:</h4>
+                <p>Modul KRS Online,Jadwal Kuliah,Absensi Digital,Input Nilai,Transkip Online,Portal Mahasiswa,Portal Dosen</Portal></p>
+                <h4>Stakeholder:</h4>
+                <p>Dosen,Mahasiswa,Admin Akademik,Kepala Program Studi,Rektor</p>
+                <h4>Tantangan Khusus</h4>
+                <li>Sistem harus menangani traffic tinggi saat periode KRS (2000+ user
+ bersamaan)</li>
+                <li>Integrasi dengan sistem pembayaran</li>
+                <li>Perhitungan otomatis IPK, SKS, dan eligibilitas wisuda</li>
+                <li>Multi-role dengan permission berbeda</li>
+                    </ul>
+                </div>
+                
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Analisis Kebutuhan Proyek. Semua hak dilindungi.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Fungsi untuk menampilkan section yang dipilih
+        function showSection(sectionId) {
+            // Sembunyikan semua section
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Tampilkan section yang dipilih
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Scroll ke atas halaman
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+        
+        // Fungsi untuk scroll ke sub-content tertentu
+        function scrollToSubContent(subContentId) {
+            const element = document.getElementById(subContentId);
+            if (element) {
+                element.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+        
+        // Event listener untuk menu utama
+        document.querySelectorAll('.menu-main').forEach(menuItem => {
+            menuItem.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetSection = this.getAttribute('data-target');
+                showSection(targetSection);
+            });
+        });
+        
+        // Event listener untuk submenu items
+        document.querySelectorAll('.submenu-item').forEach(subItem => {
+            subItem.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetSection = this.closest('li').querySelector('.menu-main').getAttribute('data-target');
+                const targetSubContent = this.getAttribute('data-target');
+                
+                // Tampilkan section yang sesuai
+                showSection(targetSection);
+                
+                // Scroll ke sub-content setelah section ditampilkan
+                setTimeout(() => {
+                    scrollToSubContent(targetSubContent);
+                }, 100);
+            });
+        });
+        
+        // Inisialisasi - tampilkan section pertama
+        document.addEventListener('DOMContentLoaded', function() {
+            showSection('analisis-kebutuhan');
+        });
+    </script>
+</body>
+</html>
